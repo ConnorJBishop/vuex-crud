@@ -1,6 +1,5 @@
 node_modules
 .nyc_output
-lib
 esdoc
 coverage
 test/e2e/screenshots
