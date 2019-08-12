@@ -192,6 +192,9 @@ export default createCrudModule({
   onUpdateStart: () => {}, // Callback for PATCH start
   onUpdateSuccess: () => {}, // Callback for PATCH success
   onUpdateError: () => {}, // Callback for PATCH error
+  onBatchUpdateStart: () => {}, // Callback for PATCH start (BATCH MODE)
+  onBatchUpdateSuccess: () => {}, // Callback for PATCH success (BATCH MODE)
+  onBatchUpdateError: () => {}, // Callback for PATCH error (BATCH MODE)
   onReplaceStart: () => {}, // Callback for PUT start
   onReplaceSuccess: () => {}, // Callback for PUT success
   onReplaceError: () => {}, // Callback for PUT error
@@ -203,6 +206,7 @@ export default createCrudModule({
     'FETCH_SINGLE',
     'CREATE',
     'UPDATE',
+    'BATCH_UPDATE',
     'REPLACE',
     'DESTROY'
   ], // What CRUD actions should be available
@@ -266,6 +270,7 @@ fetchList({ customUrl: '/api/books/1/pages' });
 fetchSingle({ customUrl: '/api/books/1/pages/1' });
 create({ data: { content: '...' }, customUrl: '/api/books/1/pages' });
 update({ data: { content: '...' }, customUrl: '/api/books/1/pages/1' });
+batchUpdate({ data: { content: '...' }, customUrl: '/api/books/1/pages' });
 replace({ data: { content: '...' }, customUrl: '/api/books/1/pages/1' });
 destroy({ customUrl: '/api/books/1/pages/1' });
 ```
@@ -296,6 +301,7 @@ fetchList({ customUrlFnArgs: bookId });
 fetchSingle({ id, customUrlFnArgs: bookId });
 create({ data: { content: '...' }, customUrlFnArgs: bookId });
 update({ id, data: { content: '...' }, customUrlFnArgs: bookId });
+batchUpdate({ data: { content: '...' }, customUrlFnArgs: bookId });
 replace({ id, data: { content: '...' }, customUrlFnArgs: bookId });
 destroy({ id, customUrlFnArgs: bookId });
 ```
@@ -375,6 +381,11 @@ Vuex-CRUD ships with following actions (config is configuration for axios):
 
   // PATCH /api/<resouceName>/:id
   update({ commit }, { id, data, config } = {}) {
+    // ...
+  },
+
+  // PATCH /api/<resouceName>
+  batchUpdate({ commit }, { data, config } = {}) {
     // ...
   },
 
