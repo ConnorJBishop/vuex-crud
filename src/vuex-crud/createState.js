@@ -32,6 +32,13 @@ const createState = ({ state, only }) => {
     });
   }
 
+  if (only.includes('BATCH_UPDATE')) {
+    Object.assign(crudState, {
+      isBatchUpdating: false,
+      batchUpdateError: null
+    });
+  }
+
   if (only.includes('REPLACE')) {
     Object.assign(crudState, {
       isReplacing: false,

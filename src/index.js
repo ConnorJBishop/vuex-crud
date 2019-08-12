@@ -29,6 +29,9 @@ import createState from './vuex-crud/createState';
  * @property {Function} onUpdateStart Mutation method called after update state.
  * @property {Function} onUpdateSuccess Mutation method called after update success.
  * @property {Function} onUpdateError Mutation method called after update error.
+ * @property {Function} onBatchUpdateStart Mutation method called after batch update state.
+ * @property {Function} onBatchUpdateSuccess Mutation method called after batch update success.
+ * @property {Function} onBatchUpdateError Mutation method called after batch update error.
  * @property {Function} onReplaceStart Mutation method called after replace state.
  * @property {Function} onReplaceSuccess Mutation method called after replace success.
  * @property {Function} onReplaceError Mutation method called after replace error.
@@ -63,13 +66,16 @@ const createCrud = ({
   onUpdateStart = () => { },
   onUpdateSuccess = () => { },
   onUpdateError = () => { },
+  onBatchUpdateStart = () => { },
+  onBatchUpdateSuccess = () => { },
+  onBatchUpdateError = () => { },
   onReplaceStart = () => { },
   onReplaceSuccess = () => { },
   onReplaceError = () => { },
   onDestroyStart = () => { },
   onDestroySuccess = () => { },
   onDestroyError = () => { },
-  only = ['FETCH_LIST', 'FETCH_SINGLE', 'CREATE', 'UPDATE', 'REPLACE', 'DESTROY'],
+  only = ['FETCH_LIST', 'FETCH_SINGLE', 'CREATE', 'UPDATE', 'BATCH_UPDATE', 'REPLACE', 'DESTROY'],
   parseList = res => res,
   parseSingle = res => res,
   parseError = res => res
@@ -121,6 +127,9 @@ const createCrud = ({
       onUpdateStart,
       onUpdateSuccess,
       onUpdateError,
+      onBatchUpdateStart,
+      onBatchUpdateSuccess,
+      onBatchUpdateError,
       onReplaceStart,
       onReplaceSuccess,
       onReplaceError,

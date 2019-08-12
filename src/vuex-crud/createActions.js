@@ -18,6 +18,9 @@ const createActions = ({
   onUpdateStart,
   onUpdateSuccess,
   onUpdateError,
+  onBatchUpdateStart,
+  onBatchUpdateSuccess,
+  onBatchUpdateError,
   onReplaceStart,
   onReplaceSuccess,
   onReplaceError,
@@ -30,9 +33,10 @@ const createActions = ({
     FETCH_SINGLE,
     CREATE,
     UPDATE,
+    BATCH_UPDATE,
     REPLACE,
     DESTROY
-  ] = ['FETCH_LIST', 'FETCH_SINGLE', 'CREATE', 'UPDATE', 'REPLACE', 'DESTROY'];
+  ] = ['FETCH_LIST', 'FETCH_SINGLE', 'CREATE', 'UPDATE', 'BATCH_UPDATE', 'REPLACE', 'DESTROY'];
   const crudActions = {};
   const isUsingCustomUrlGetter = typeof rootUrl === 'function';
 
@@ -209,6 +213,47 @@ const createActions = ({
             commit('updateError', parsedError);
             dispatch('onUpdateError', parsedError);
 
+            return Promise.reject(parsedError);
+          });
+      }
+    });
+  }
+
+  if (only.includes(BATCH_UPDATE)) {
+    Object.assign(crudActions, {
+      onBatchUpdateStart,
+      onBatchUpdateSuccess,
+      onBatchUpdateError,
+      /**
+       * PATCH /api/<resouceName>
+       *
+       * Batch Update several resources.
+       */
+      batchUpdate({ commit, dispatch }, {
+        data,
+        config,
+        customUrl,
+        customUrlFnArgs = []
+      } = {}) {
+        commit('batchUpdateStart');
+        dispatch('onBatchUpdateStart');
+        return client.patch(urlGetter({
+          customUrl,
+          customUrlFnArgs,
+          type: BATCH_UPDATE
+        }), data, config)
+          .then((res) => {
+            const parsedResponse = parseList(res);
+
+            commit('batchUpdateSuccess', parsedResponse);
+            dispatch('onBatchUpdateSuccess', parsedResponse);
+            return parsedResponse;
+          })
+          .catch((err) => {
+            const parsedError = parseError(err);
+
+            commit('batchUpdateError', parsedError);
+            dispatch('onBatchUpdateError', parsedError);
             return Promise.reject(parsedError);
           });
       }

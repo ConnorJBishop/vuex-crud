@@ -110,6 +110,37 @@ const createMutations = ({
     });
   }
 
+  if (only.includes('BATCH_UPDATE')) {
+    Object.assign(crudMutations, {
+      batchUpdateStart(state) {
+        state.isBatchUpdating = true;
+      },
+
+      batchUpdateSuccess(state, response) {
+        const { data } = response;
+        data.forEach((entity) => {
+          const id = entity[idAttribute].toString();
+
+          Vue.set(state.entities, id, entity);
+
+          const listIndex = state.list.indexOf(id);
+
+          if (listIndex >= 0) {
+            Vue.set(state.list, listIndex, id);
+          }
+        });
+
+        state.isBatchUpdating = false;
+        state.batchUpdateError = null;
+      },
+
+      batchUpdateError(state, err) {
+        state.batchUpdateError = err;
+        state.isBatchUpdating = false;
+      }
+    });
+  }
+
   if (only.includes('REPLACE')) {
     Object.assign(crudMutations, {
       replaceStart(state) {
