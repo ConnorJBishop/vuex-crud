@@ -32,7 +32,7 @@ test('creates state', (t) => {
     createCrud({ resource: 'articles' }).state,
     createState({
       state: {},
-      only: ['FETCH_LIST', 'FETCH_SINGLE', 'CREATE', 'UPDATE', 'REPLACE', 'DESTROY']
+      only: ['FETCH_LIST', 'FETCH_SINGLE', 'CREATE', 'UPDATE', 'BATCH_UPDATE', 'REPLACE', 'DESTROY']
     })
   );
 });

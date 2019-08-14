@@ -63,7 +63,7 @@ test('creates store with destroy props', (t) => {
 });
 
 test('returns all properties', (t) => {
-  t.deepEqual(createState({ only: ['FETCH_LIST', 'FETCH_SINGLE', 'CREATE', 'UPDATE', 'REPLACE', 'DESTROY'] }), {
+  t.deepEqual(createState({ only: ['FETCH_LIST', 'FETCH_SINGLE', 'CREATE', 'UPDATE', 'BATCH_UPDATE', 'REPLACE', 'DESTROY'] }), {
     entities: {},
     list: [],
 
@@ -78,6 +78,9 @@ test('returns all properties', (t) => {
 
     isUpdating: false,
     updateError: null,
+
+    isBatchUpdating: false,
+    batchUpdateError: null,
 
     isReplacing: false,
     replaceError: null,
