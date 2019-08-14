@@ -5,6 +5,7 @@ coverage
 test/e2e/screenshots
 test/e2e/reports
 selenium-debug.log
+chromedriver.log
 npm-debug.log
 coverage
 esdoc
